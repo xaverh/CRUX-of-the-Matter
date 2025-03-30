@@ -1,0 +1,23 @@
+# Description: A tiling window manager based on binary space partitioning
+# URL: https://github.com/baskerville/bspwm
+# Maintainer: Xaver Hellauer, xaver at hellauer dot bayern
+# Depends on: xorg-xcb-util xorg-xcb-util-keysyms xorg-xcb-util-wm
+# Optional: bash sxhkd
+
+name=bspwm
+version=0.9.10.r51.gaf3bd8b
+release=2
+source=(https://github.com/baskerville/bspwm/archive/af3bd8b4351f4478fe0fe3cfd6c09e44cb108b4b.tar.gz)
+
+build() {
+  cd $name-af3bd8b4351f4478fe0fe3cfd6c09e44cb108b4b
+
+  make PREFIX=/usr
+  make PREFIX=/usr DESTDIR="$PKG" install
+
+  rm "$PKG"/usr/share/doc/bspwm/*.md
+  mkdir -p "$PKG"/usr/etc/
+  mv "$PKG"/usr/share/doc/bspwm/examples "$PKG"/usr/etc/bspwm
+  rmdir "$PKG"/usr/share/doc/bspwm
+  rmdir "$PKG"/usr/share/doc
+}
